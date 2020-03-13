@@ -1,3 +1,4 @@
+import os
 import time
 import logging
 import traceback
@@ -67,6 +68,12 @@ def process(message, **kwargs):
 
         Hence, this method has the look and feel of a dispatcher!
     """
+
+    # It has been found that this function fails to create a proposal when 
+    # there are pending proposals in the chain
+    # Hence calling approve to clear pending proposals 
+    approve()
+
     # We clear the buffers here so we start fresh with no
     # operation in any buffer
     lookup.clear()
@@ -261,6 +268,8 @@ def process(message, **kwargs):
         )
     except Exception as e:
         pass
+
+    os.system('python3 cli.py approve')
 
 
 #
